@@ -12,3 +12,5 @@ def print_board(board):
         print()
 
 print_board(board)
+
+ 
