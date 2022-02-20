@@ -1,18 +1,11 @@
-import spaceisfree
-#tic tac toe with computer 
-board = {1: ' ', 2: ' ', 3: ' ',
-         4: ' ', 5: ' ', 6: ' ',
-         7: ' ', 8: ' ', 9: ' '}
+from modulefinder import board
+from modulefinder import winner
+board
+import insertLetter
+import printBoard
 
-#prints the board
-'''def printBoard(board):
-    print(board[0] + '|' + board[1] + '|' + board[2])
-    print('-+-+-')
-    print(board[3] + '|' + board[4] + '|' + board[5])
-    print('-+-+-')
-    print(board[6] + '|' + board[7] + '|' + board[8])
-    print("\n")'''
-# printBoard(board)
+print("Welcome To TIC-TAC-TOE for python")
+print("Please Select X's or O's")
 
 #check for free spaces 
 def spaceIsFree(pos):
@@ -26,7 +19,7 @@ def checkTie():
     for key in board.keys():
         if board[key] == ' ':
             return False
-
+        
     return True
 
 #check for winner
