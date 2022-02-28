@@ -1,5 +1,5 @@
 from select import select
-import board
+# import board
 board = ['a1','b1','c1','a2','b2','c2','a3','b3','c3']
 import insertLetter
 
@@ -13,9 +13,11 @@ class TicTacToe:
     p1 = 'X'
     p2 = 'O'
         
-    def __init__(self, player):
+    def __init__(self, player, computer):
         '''defines the player and their choice of X || O'''
+        
         self.player = player
+        self.computer = computer
         if player[0]:
             print('X')
         else:
@@ -103,59 +105,12 @@ def checkforWinner(self, mark):
     else:
         return False
 
-class Position(TicTacToe):
-    #inserts a letter (x,o) on the board 
-    def insertLetter(letter, pos):
-        '''Rules for placing X's and O's on the board'''
-        if spaceIsFree(pos):
-            board[pos] = letter
-            board()
-            if(checkTie()):
-                print("Tie Game!")
-                exit()
-
-            if isWinner():
-                if letter == 'X':
-                    print("Computer wins!")
-                    exit()
-                else:
-                    print("Player wins!")
-                    exit()
-            return    
-
-        else:
-            print("That position is taken!")
-            pos = int(input("Enter a new position: "))
-            insertLetter(letter, pos)
-            return
-
-    #player moves
-    def playerMove():
-        pos = int(input("Enter the position for 'O': "))
-        insertLetter(p1, pos)                       # this should be refactored tp cp,ing 
-        return
-
-    def compMove():
-        bestScore = -1000
-        bestMove = 0
-
-        for key in board.keys():
-            if(board[key]== ' '):
-                board[key] = computer
-                score = minimax(board,0,False)
-                board[key] = ' '
-                if(score > bestScore):
-                    bestScore = score
-                    bestMove = key
-
-        insertLetter(computer, bestMove)
-        return 
-
 #using minimax 
 class Minimax(TicTacToe):
     '''Initializes the Class for making 5500 decison tree'''
-    def __init__(self, board, player, isMaximizing):
+    def __init__(self, board, computer, player, isMaximizing):
         '''criteria for Minimax class'''
+        
         self.player = player
         if checkforWinner(computer):
             return 100
@@ -189,6 +144,55 @@ class Minimax(TicTacToe):
                         bestScore = score
             return bestScore            
 
+class Position(TicTacToe):
+    #inserts a letter (x,o) on the board 
+    def insertLetter(letter, pos):
+        '''Rules for placing X's and O's on the board'''
+        if spaceIsFree(pos):
+            board[pos] = letter
+            board()
+            if(checkTie()):
+                print("Tie Game!")
+                exit()
+
+            if isWinner():
+                if letter == 'X':
+                    print("Computer wins!")
+                    exit()
+                else:
+                    print("Player wins!")
+                    exit()
+            return    
+
+        else:
+            print("That position is taken!")
+            pos = int(input("Enter a new position: "))
+            insertLetter(letter, pos)
+            return
+
+    #player moves
+    def playerMove(player):
+        pos = int(input("Enter the position for 'O': "))
+        insertLetter(player, pos)                       # this should be refactored tp cp,ing 
+        return
+
+    def compMove(computer):
+        bestScore = -1000
+        bestMove = 0
+
+        for key in board.keys():
+            if(board[key]== ' '):
+                board[key] = computer
+                score = Minimax(board,0,False)
+                board[key] = ' '
+                if(score > bestScore):
+                    bestScore = score
+                    bestMove = key
+
+        insertLetter(computer, bestMove)
+        return 
+
+
 # while not isWinner():
 #     compTurn = True
 #     if compTurn = False:
@@ -196,27 +200,4 @@ class Minimax(TicTacToe):
 # elif:
 #     playerMove
 
-#inserts a letter (x,o) on the board 
-def insertLetter(letter, pos):
-    if spaceIsFree(pos):
-        board[pos] = letter
-        printBoard(board)
-        if(checkTie()):
-            print("Tie Game!")
-            exit()
-
-        if isWinner():
-            if letter == 'X':
-                print("Computer wins!")
-                exit()
-            else:
-                print("Player wins!")
-                exit()
-        return    
-
-    else:
-        print("That position is taken!")
-        pos = int(input("Enter a new position: "))
-        insertLetter(letter, pos)
-        return
-    
+#inserts a letter (x,o) on the board    
