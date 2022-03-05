@@ -1,5 +1,4 @@
-from select import select
-# import board
+
 board = ['a1','b1','c1','a2','b2','c2','a3','b3','c3']
 import insertLetter
 
@@ -44,26 +43,24 @@ class TicTacToe:
                                             '|______|______|______|'
                                             )                                                                                      
         return board
-        
 
+    def spaceIsFree(pos):
+        '''Check if space is free on the board'''
+        if(board[pos] == ' '):
+            return True
+        else:
+            return False
 
-#check for free spaces 
-def spaceIsFree(pos):
-    if(board[pos] == ' '):
-        return True
-    else:
-        return False
-
-#check for tie
 def checkTie():
+    '''Checks board for a Tie'''
     for key in board.keys():
         if board[key] == ' ':
             return False
-        
-    return True
+        else:
+            return True
 
-#check for winner
 def isWinner():
+    '''Checks board for a winner'''
     if (board[0] == board[1] and board[0] == board[2] and board[1] != ' '):
         return True
     elif (board[3] == board[4] and board[3] == board[5] and board[3] != ' '):
@@ -83,8 +80,8 @@ def isWinner():
     else:
         return False
 
-#checks for winner with minimax... mark is x or o
 def checkforWinner(self, mark):
+    '''Checks for winner with minimax... mark is x or o'''
     self.mark = mark
     if (board[1] == board[2] and board[1] == board[3] and board[1] == mark):
         return True
@@ -107,22 +104,26 @@ def checkforWinner(self, mark):
 
 #using minimax 
 class Minimax(TicTacToe):
-    '''Initializes the Class for making 5500 decison tree'''
+    '''Initializes the Class for making decison tree'''
+    
     def __init__(self, board, computer, player, isMaximizing):
         '''criteria for Minimax class'''
         
+        self.computer = computer
         self.player = player
+        TicTacToe.board = board
+        
         if checkforWinner(computer):
-            return 100
+            return -100
 
         elif checkforWinner(player):
-            return -100
+            return 100
         
         elif checkTie():
             return 0
 
         if isMaximizing:
-            bestScore = -1000
+            bestScore = -100
 
             for key in board.keys():
                 if (board[key] == ' '):
@@ -135,7 +136,7 @@ class Minimax(TicTacToe):
             return bestScore
 
         else:
-            bestScore = 1000
+            bestScore = 100
             for key in board.keys():
                 if (board[key] == ' '):
                     board[key] = self.player
@@ -145,30 +146,29 @@ class Minimax(TicTacToe):
             return bestScore            
 
 class Position(TicTacToe):
-    #inserts a letter (x,o) on the board 
-    def insertLetter(letter, pos):
-        '''Rules for placing X's and O's on the board'''
-        if spaceIsFree(pos):
-            board[pos] = letter
-            board()
-            if(checkTie()):
-                print("Tie Game!")
-                exit()
+    ''' #inserts a letter (x,o) on the board''' 
+    # def insertLetter(letter, pos):
+    #     '''Rules for placing X's and O's on the board'''
+    #     if spaceIsFree(pos):
+    #         board[pos] = letter
+    #         print(board())
+    #         if(checkTie()):
+    #             print("Tie Game!")
+    #             exit()
 
-            if isWinner():
-                if letter == 'X':
-                    print("Computer wins!")
-                    exit()
-                else:
-                    print("Player wins!")
-                    exit()
-            return    
+    #         if isWinner():
+    #             if letter == 'X':
+    #                 print("Computer wins!")
+    #                 exit()
+    #             else:
+    #                 print("Player wins!")
+    #                 exit()
+    #         return    
 
-        else:
-            print("That position is taken!")
-            pos = int(input("Enter a new position: "))
-            insertLetter(letter, pos)
-            return
+    #     else:
+    #         print("That position is taken!")
+    #         pos = int(input("Enter a new position: "))
+    #         return '''
 
     #player moves
     def playerMove(player):
@@ -177,7 +177,7 @@ class Position(TicTacToe):
         return
 
     def compMove(computer):
-        bestScore = -1000
+        bestScore = -100
         bestMove = 0
 
         for key in board.keys():
@@ -191,13 +191,3 @@ class Position(TicTacToe):
 
         insertLetter(computer, bestMove)
         return 
-
-
-# while not isWinner():
-#     compTurn = True
-#     if compTurn = False:
-#         compTurn()
-# elif:
-#     playerMove
-
-#inserts a letter (x,o) on the board    
