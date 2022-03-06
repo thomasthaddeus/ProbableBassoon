@@ -20,7 +20,7 @@ class TTT():
     #checks for winner with minima{i}... puck is x or o
         def check(self, puck, win):
             self.win = ['#1','#2','#3','#4','#5','#6','#7','#8']
-                for 9 <= turn >= 5:
+                for i <= turn >= 5:
                     '''
                         '#1' == ({i}[0] == {i}[1] == {i}[2] == puck) # 1. top_horizon
                         '#2' == ({i}[4] == {i}[5] == {i}[6] == puck) # 2. mid_horizon
@@ -31,7 +31,6 @@ class TTT():
                         '#7' == ({i}[1] == {i}[5] == {i}[9] == puck) # 7. tl_br
                         '#8' == ({i}[3] == {i}[5] == {i}[7] == puck) # 8. tr_bl
                     '''
-            
                 
             if('#1','#2','#3','#4','#5','#6','#7','#8'):        
                 print(puck + " is a winner")

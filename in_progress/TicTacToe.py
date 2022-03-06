@@ -1,3 +1,7 @@
+# Random integer in place of the the minimax algorithm unless 
+# minimax works
+
+
 
 board = ['a1','b1','c1','a2','b2','c2','a3','b3','c3']
 import insertLetter
@@ -17,17 +21,19 @@ class TicTacToe:
         
         self.player = player
         self.computer = computer
-        if player[0]:
+        print("Please choose a player.\n For X's choose player1.{p1}.\n For 'O' choose player2.{p2}")
+        if player:              # Call the player
+            print
             print('X')
         else:
             print('O')
-        print("Please choose a player.\n For X's choose player1.{p1}.\n For 'O' choose player2.{p2}")
+        
         
     #prints the board
     def board(self):
         '''Displays board with index starting in top left and finishing in bottom right [0:8]'''
         self.board = board
-        board['1':'a1', '2':'b1', '3':'c1',
+        board['a1':'1', 'b1':'2', 'c1':'3',
               '4':'a2', '5':'b2', '6':'c2',
               '7':'a3', '8':'b3', '9':'c3'] = (
                                                'A'    'B'    'C' 
@@ -44,12 +50,12 @@ class TicTacToe:
                                             )                                                                                      
         return board
 
-    def spaceIsFree(pos):
-        '''Check if space is free on the board'''
-        if(board[pos] == ' '):
-            return True
-        else:
-            return False
+def spaceIsFree(pos):
+    '''Check if space is free on the board'''
+    if(board[pos] == ' '):
+        return True
+    else:
+        return False
 
 def checkTie():
     '''Checks board for a Tie'''
@@ -58,27 +64,6 @@ def checkTie():
             return False
         else:
             return True
-
-def isWinner():
-    '''Checks board for a winner'''
-    if (board[0] == board[1] and board[0] == board[2] and board[1] != ' '):
-        return True
-    elif (board[3] == board[4] and board[3] == board[5] and board[3] != ' '):
-        return True
-    elif (board[7] == board[8] and board[7] == board[9] and board[6] != ' '):
-        return True
-    elif (board[1] == board[4] and board[1] == board[7] and board[0] != ' '):
-        return True
-    elif (board[2] == board[5] and board[2] == board[8] and board[1] != ' '):
-        return True
-    elif (board[3] == board[6] and board[3] == board[9] and board[2] != ' '):
-        return True
-    elif (board[1] == board[5] and board[1] == board[9] and board[0] != ' '):
-        return True
-    elif (board[7] == board[5] and board[7] == board[3] and board[7] != ' '):
-        return True
-    else:
-        return False
 
 def checkforWinner(self, mark):
     '''Checks for winner with minimax... mark is x or o'''
@@ -147,28 +132,26 @@ class Minimax(TicTacToe):
 
 class Position(TicTacToe):
     ''' #inserts a letter (x,o) on the board''' 
-    # def insertLetter(letter, pos):
-    #     '''Rules for placing X's and O's on the board'''
-    #     if spaceIsFree(pos):
-    #         board[pos] = letter
-    #         print(board())
-    #         if(checkTie()):
-    #             print("Tie Game!")
-    #             exit()
+    def insertLetter(mark, pos):
+        '''Rules for placing X's and O's on the board'''
+        if spaceIsFree(pos):
+            board[pos] = mark
+            print(board())
+            if(checkTie()):
+                print("Tie Game!")
+                exit()
 
-    #         if isWinner():
-    #             if letter == 'X':
-    #                 print("Computer wins!")
-    #                 exit()
-    #             else:
-    #                 print("Player wins!")
-    #                 exit()
-    #         return    
+            if checkforWinner():
+                if mark == 'X':
+                    print("Computer wins!")
+                    exit()
+                else:
+                    return("Player wins!")  
 
-    #     else:
-    #         print("That position is taken!")
-    #         pos = int(input("Enter a new position: "))
-    #         return '''
+        else:
+            print("That position is taken!")
+            pos = int(input("Enter a new position: "))
+            return 
 
     #player moves
     def playerMove(player):
