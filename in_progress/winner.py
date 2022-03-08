@@ -14,26 +14,26 @@ class TTT():
             return True
         else:
             return False
-    def puck.keys():
+    def mark.keys():
         if p1 = 'X':
   
-    #checks for winner with minima{i}... puck is x or o
-        def check(self, puck, win):
+    #checks for winner with minima{i}... mark is x or o
+        def check(self, mark, win):
             self.win = ['#1','#2','#3','#4','#5','#6','#7','#8']
                 for i <= turn >= 5:
                     '''
-                        '#1' == ({i}[0] == {i}[1] == {i}[2] == puck) # 1. top_horizon
-                        '#2' == ({i}[4] == {i}[5] == {i}[6] == puck) # 2. mid_horizon
-                        '#3' == ({i}[1] == {i}[4] == {i}[7] == puck) # 3. bottom_horizon
-                        '#4' == ({i}[2] == {i}[5] == {i}[8] == puck) # 4. left_vertical
-                        '#5' == ({i}[3] == {i}[6] == {i}[9] == puck) # 5. middle_vertical
-                        '#6' == ({i}[3] == {i}[6] == {i}[9] == puck) # 6. right_vertical
-                        '#7' == ({i}[1] == {i}[5] == {i}[9] == puck) # 7. tl_br
-                        '#8' == ({i}[3] == {i}[5] == {i}[7] == puck) # 8. tr_bl
+                        '#1' == ({i}[0] == {i}[1] == {i}[2] == mark) # 1. top_horizon
+                        '#2' == ({i}[4] == {i}[5] == {i}[6] == mark) # 2. mid_horizon
+                        '#3' == ({i}[1] == {i}[4] == {i}[7] == mark) # 3. bottom_horizon
+                        '#4' == ({i}[2] == {i}[5] == {i}[8] == mark) # 4. left_vertical
+                        '#5' == ({i}[3] == {i}[6] == {i}[9] == mark) # 5. middle_vertical
+                        '#6' == ({i}[3] == {i}[6] == {i}[9] == mark) # 6. right_vertical
+                        '#7' == ({i}[1] == {i}[5] == {i}[9] == mark) # 7. tl_br
+                        '#8' == ({i}[3] == {i}[5] == {i}[7] == mark) # 8. tr_bl
                     '''
                 
             if('#1','#2','#3','#4','#5','#6','#7','#8'):        
-                print(puck + " is a winner")
+                print(mark + " is a winner")
             else:
                 return False
 
