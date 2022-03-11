@@ -1,1 +1,1 @@
-2022-03-11 09:41:47,130 - INFO - Start of Program
+2022-03-11 11:38:54,759 - DEBUG - Start of Program

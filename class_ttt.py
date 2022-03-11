@@ -5,6 +5,7 @@
 #    Fundamentals of Computing    #
 ###################################
 
+from doctest import debug_script
 import random
 import logging
 logging.basicConfig(filename='ttt_game_log.txt', 
@@ -12,40 +13,52 @@ logging.basicConfig(filename='ttt_game_log.txt',
                     level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-# class TicTacToe:
-#Class for playing TicTacToe''' '''
+BOARD_KEYS = ['123456789']
+
 
 welcome = ("Welcome to Tic Tac Toe\n")
-directions = ("""
-                First: Choose your piece: X or O.
+directions = ("""Directions::
+                \nFirst: Choose your piece: X or O.
                 \nThe computer randomly decides who goes first.
                 \nThen pick a spot on the board.
                 \nUse the numbers 1-9 to pick a spot on the board.""")
 
-    
-def getuserPiece(piece):
+logging.debug('Pick a puck')    
+def get_player(mark, player, computer):
     """Defines which piece the user is and whether they go first or second"""
-    piece = ""
-    while piece != 'X' and piece != 'O':
-        piece = input("To Play Please Select Either (X)'s or (O)'s: ").capitalize
-    p1 = piece
-    if p1 == 'X':
-        p2 = 'O'
-    else: 
-        p1 = 'X'
+    mark = ""
+    player = p1
+    computer = p2
+    while mark != 'X' and mark != 'O':
+        mark = input("To Play Please Select Either (X)'s or (O)'s: ").capitalize
+        if p1 == 'X':
+            p2 = 'O'
+        else: 
+            p1 = 'X'
 
-    if random.randint == 0:
-        print("Player goes first")
+    if random.randint(0,1) == 0:
+        print("{p1} goes first".format(player))
     else:
-        print("Computer goes first")
+        print("{p2} goes first".format(computer))
     
-    print(p1,"Player\n", p2, "Computer")
-    return p1, p2
+    return 
 
-def drawBoard(self,board):
+def get_board(board):
     '''Displays board with index starting in top left and finishing in bottom right [0:8]'''
-    self.board=board("____________________ \n|      |      |      |\n| {a1} | {b1} | {c1} | 1 2 3\n|______|______|______|\n|      |      |      |\n| {a2} | {b2} | {c2} | 4 5 6\n|______|______|______|\n|      |      |      |\n| {a3} | {b3} | {c3} | 7 8 9\n|______|______|______|".format(a1='1',b1='2',c1='3',a2='4',b2='5',c2='6',a3='7',b3='8',c3='9'))
-    return board
+    return """
+ ____________________ 
+|      |      |      |
+|  {}  |  {}  |  {}  | 1 2 3
+|______|______|______|
+|      |      |      |
+|  {}  |  {}  |  {}  | 4 5 6
+|______|______|______|
+|      |      |      |
+|  {}  |  {}  |  {}  | 7 8 9
+|______|______|______|""".format(board['1'],board['2'],board['3'],
+                                 board['4'],board['5'],board['6'],
+                                 board['7'],board['8'],board['9'])
+    
 
 def copy_board(board):
     """Displays copy of the board"""
@@ -54,9 +67,9 @@ def copy_board(board):
         copy.append(i)
     return copy
 
-def makeMove(board, move, piece):
+def make_move(board, move, piece):
     """Displays move"""
-    if spaceIsFree(move):
+    if empty_space(move):
         board[move] = piece
         try:
             x = input('Give me a number between 1 and 9: ')
@@ -64,33 +77,22 @@ def makeMove(board, move, piece):
                 exit
             x=int(x)
         except ValueError:
-            print('Invalid number')
+            print('Invalid number, Only numbers in empty spaces')
         else:
-            print    
-        if(checkTie()):
-            print("Tie Game!")
+            if(checkTie()):
+                print("Tie Game!")
 
-        elif checkWin():
-            if piece == 'X':
-                print("Computer wins!")
-                exit()
-            else:
-                print("Player wins!")
-                exit()
-        return    
-
-    else:
-        print("That position is taken!")
-        input("Enter a new position: ")
-        
-        return
-
-
+            elif checkWin():
+                if piece == 'X':
+                    print("Computer wins!")
+                    exit()
+                else:
+                    print("Player wins!")
+                    exit()
     
-def spaceIsFree(board, move):
+def empty_space(board, free_space):
     '''Check if space is free on the board'''
-    if(board[move] == ' '):
-        return True
+    return free_space in BOARD_KEYS & board[free_space] == ' '
 
 def checkTie(board):
     '''Checks board for a Tie'''
@@ -101,9 +103,9 @@ def checkTie(board):
         else:
             return "Game is a Tie"
 
-def checkWin():
+def checkWin(board, player):
     '''Checks for winner using the board'''
-    i, mark = 
+    i, mark = board, player 
     return(
     (i[1] == i[2] == i[3] == mark) or  # 1. top_horizon
     (i[4] == i[5] == i[6] == mark) or  # 2. mid_horizon
@@ -146,26 +148,32 @@ def minimax(self, isMax, board, computer, player):
                     bestScore = score
         return bestScore
 
-logging.info('Start of Program')
+logging.debug('Start of Program')
 def main():
     """Loop for running Game"""
     print(welcome, directions)
-    while True:
-        drawBoard()
-        getuserPiece()
-        turn = 'X'
-        for i in range(9):
-            drawBoard()
-            print('It is' + turn + '. Move on which space?')
-            move = input()
-            drawBoard[move] = turn
+    copy = copy_board()
+    user = user.get_player()
+    print(get_player(copy, user))
+    try:
+        while True:
+            print(get_board(copy))
+            get_player()
+            turn = None
+            while not empty_space(copy, turn): 
+                print(' Its your turn to play. Choose a spot')
+                turn = input()
+            get_board(copy, turn, user)  
             if turn == 'X':
                 turn = 'O'
             else:
                 turn = 'X'
-        drawBoard(board)
+            get_board(copy)
+    except SyntaxError:
+        logging.debug()
+    
             
 if __name__ == '__main__':
     main()
 
-logging.info('End of Program')
+logging.debug('End of Program')
