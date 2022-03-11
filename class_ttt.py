@@ -33,21 +33,18 @@ def getuserPiece(piece):
         p2 = 'O'
     else: 
         p1 = 'X'
+
+    if random.randint == 0:
+        print("Player goes first")
+    else:
+        print("Computer goes first")
     
     print(p1,"Player\n", p2, "Computer")
     return p1, p2
 
-def playerOne(player=0, computer=1):
-    """Decides who goes first"""
-    for i in range(0,1):
-        if random.randint == 0:
-            return f"{player} goes first"
-        else:
-            return f"{computer} goes first"
-
-def drawBoard(board):
+def drawBoard(self,board):
     '''Displays board with index starting in top left and finishing in bottom right [0:8]'''
-    board("____________________ \n|      |      |      |\n| {a1} | {b1} | {c1} | 1 2 3\n|______|______|______|\n|      |      |      |\n| {a2} | {b2} | {c2} | 4 5 6\n|______|______|______|\n|      |      |      |\n| {a3} | {b3} | {c3} | 7 8 9\n|______|______|______|".format(a1='1',b1='2',c1='3',a2='4',b2='5',c2='6',a3='7',b3='8',c3='9'))
+    self.board=board("____________________ \n|      |      |      |\n| {a1} | {b1} | {c1} | 1 2 3\n|______|______|______|\n|      |      |      |\n| {a2} | {b2} | {c2} | 4 5 6\n|______|______|______|\n|      |      |      |\n| {a3} | {b3} | {c3} | 7 8 9\n|______|______|______|".format(a1='1',b1='2',c1='3',a2='4',b2='5',c2='6',a3='7',b3='8',c3='9'))
     return board
 
 def copy_board(board):
@@ -58,8 +55,18 @@ def copy_board(board):
     return copy
 
 def makeMove(board, move, piece):
+    """Displays move"""
     if spaceIsFree(move):
         board[move] = piece
+        try:
+            x = input('Give me a number between 1 and 9: ')
+            if x == 'q':
+                exit
+            x=int(x)
+        except ValueError:
+            print('Invalid number')
+        else:
+            print    
         if(checkTie()):
             print("Tie Game!")
 
@@ -94,8 +101,9 @@ def checkTie(board):
         else:
             return "Game is a Tie"
 
-def checkWin(i, mark):
+def checkWin():
     '''Checks for winner using the board'''
+    i, mark = 
     return(
     (i[1] == i[2] == i[3] == mark) or  # 1. top_horizon
     (i[4] == i[5] == i[6] == mark) or  # 2. mid_horizon
@@ -145,15 +153,17 @@ def main():
     while True:
         drawBoard()
         getuserPiece()
-        try:
-            x = input('Give me a number between 1 and 9')
-            if x == 'q':
-                break
-            x=int(x)
-        except ValueError:
-            print('Invalid number')
-        else:
-            print
+        turn = 'X'
+        for i in range(9):
+            drawBoard()
+            print('It is' + turn + '. Move on which space?')
+            move = input()
+            drawBoard[move] = turn
+            if turn == 'X':
+                turn = 'O'
+            else:
+                turn = 'X'
+        drawBoard(board)
             
 if __name__ == '__main__':
     main()
