@@ -65,28 +65,6 @@ def checkTie():
         else:
             return True
 
-def checkforWinner(self, mark):
-    '''Checks for winner with minimax... mark is x or o'''
-    self.mark = mark
-    if (board[1] == board[2] and board[1] == board[3] and board[1] == mark):
-        return True
-    elif (board[4] == board[5] and board[4] == board[6] and board[4] == mark):
-        return True
-    elif (board[7] == board[8] and board[7] == board[9] and board[7] == mark):
-        return True
-    elif (board[1] == board[4] and board[1] == board[7] and board[1] == mark):
-        return True
-    elif (board[2] == board[5] and board[2] == board[8] and board[2] == mark):
-        return True
-    elif (board[3] == board[6] and board[3] == board[9] and board[3] == mark):
-        return True
-    elif (board[1] == board[5] and board[1] == board[9] and board[1] == mark):
-        return True
-    elif (board[7] == board[5] and board[7] == board[3] and board[7] == mark):
-        return True
-    else:
-        return False
-
 #using minimax 
 class Minimax(TicTacToe):
     '''Initializes the Class for making decison tree'''
@@ -98,10 +76,10 @@ class Minimax(TicTacToe):
         self.player = player
         TicTacToe.board = board
         
-        if checkforWinner(computer):
+        if TicTacToe.checkWin(computer):
             return -100
 
-        elif checkforWinner(player):
+        elif checkWin(player):
             return 100
         
         elif checkTie():

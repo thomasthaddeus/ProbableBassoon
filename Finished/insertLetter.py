@@ -1,13 +1,12 @@
 #inserts a letter (x,o) on the board 
-def insertLetter(letter, pos):
+def insertLetter(self, letter, pos):
     if spaceIsFree(pos):
         board[pos] = letter
         printBoard(board)
         if(checkTie()):
             print("Tie Game!")
-            exit()
 
-        if isWinner():
+        elif isWinner():
             if letter == 'X':
                 print("Computer wins!")
                 exit()
