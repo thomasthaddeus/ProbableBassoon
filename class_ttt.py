@@ -13,8 +13,8 @@ logging.basicConfig(filename='ttt_game_log.txt',
                     level=logging.DEBUG, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-BOARD_KEYS = ['123456789']
-
+BOARD_KEYS = list('123456789')
+X, O, BLANK = "X", "O", " "
 
 welcome = ("Welcome to Tic Tac Toe\n")
 directions = ("""Directions::
@@ -23,23 +23,40 @@ directions = ("""Directions::
                 \nThen pick a spot on the board.
                 \nUse the numbers 1-9 to pick a spot on the board.""")
 
-logging.debug('Pick a puck')    
+logging.debug('Start of Program')
+def main():
+    """Loop for running Game"""
+    print(welcome, directions)
+    copy=blank_board()
+    print(get_player)
+    while True:
+        print(get_board(copy))
+        get_player()
+        turn = None
+        while not empty_space(copy, turn): 
+            print(' Its your turn to play. Choose a spot')
+            turn = input()
+        get_board(copy, turn)  
+        if turn == 'X':
+            turn = 'O'
+        else:
+            turn = 'X'
+        get_board(copy)
+    
 def get_player(mark, player, computer):
     """Defines which piece the user is and whether they go first or second"""
     mark = ""
-    player = p1
-    computer = p2
     while mark != 'X' and mark != 'O':
         mark = input("To Play Please Select Either (X)'s or (O)'s: ").capitalize
-        if p1 == 'X':
-            p2 = 'O'
+        if player == X:
+            computer = O
         else: 
-            p1 = 'X'
+            player = X
 
     if random.randint(0,1) == 0:
-        print("{p1} goes first".format(player))
+        print("{player} goes first".format(X))
     else:
-        print("{p2} goes first".format(computer))
+        print("{computer} goes first".format(computer))
     
     return 
 
@@ -48,24 +65,24 @@ def get_board(board):
     return """
  ____________________ 
 |      |      |      |
-|  {}  |  {}  |  {}  | 1 2 3
+|  {}   |   {}  |   {}  | 1 2 3
 |______|______|______|
 |      |      |      |
-|  {}  |  {}  |  {}  | 4 5 6
+|  {}   |   {}  |   {}  | 4 5 6
 |______|______|______|
 |      |      |      |
-|  {}  |  {}  |  {}  | 7 8 9
+|  {}   |   {}  |   {}  | 7 8 9
 |______|______|______|""".format(board['1'],board['2'],board['3'],
                                  board['4'],board['5'],board['6'],
                                  board['7'],board['8'],board['9'])
     
 
-def copy_board(board):
-    """Displays copy of the board"""
-    copy = []
-    for i in board:
-        copy.append(i)
-    return copy
+def blank_board():
+    """Displays a blank copy of the board"""
+    blank = {}
+    for i in BOARD_KEYS:
+        blank[i]= ' '
+    return blank
 
 def make_move(board, move, piece):
     """Displays move"""
@@ -92,7 +109,7 @@ def make_move(board, move, piece):
     
 def empty_space(board, free_space):
     '''Check if space is free on the board'''
-    return free_space in BOARD_KEYS & board[free_space] == ' '
+    return free_space in BOARD_KEYS and board[free_space] == ' '
 
 def checkTie(board):
     '''Checks board for a Tie'''
@@ -148,31 +165,6 @@ def minimax(self, isMax, board, computer, player):
                     bestScore = score
         return bestScore
 
-logging.debug('Start of Program')
-def main():
-    """Loop for running Game"""
-    print(welcome, directions)
-    copy = copy_board()
-    user = user.get_player()
-    print(get_player(copy, user))
-    try:
-        while True:
-            print(get_board(copy))
-            get_player()
-            turn = None
-            while not empty_space(copy, turn): 
-                print(' Its your turn to play. Choose a spot')
-                turn = input()
-            get_board(copy, turn, user)  
-            if turn == 'X':
-                turn = 'O'
-            else:
-                turn = 'X'
-            get_board(copy)
-    except SyntaxError:
-        logging.debug()
-    
-            
 if __name__ == '__main__':
     main()
 
