@@ -25,51 +25,78 @@ directions = ("""Directions::
                 \nThen pick a spot on the board.
                 \nUse the numbers 1-9 to pick a spot on the board.""")
 
-def get_piece():
-    """Defines which piece the user is and whether they go first or second"""
-    piece = ""
-    while not(piece == 'X' or piece == 'O'):
-        print("To Play Please Select Either X's or O's:  ")
-        piece = input().upper()
-        if piece == 'X':
-            return ['X', 'O']
-        else: 
-            return['O','X']
-     
-def first_player():
-    if random.randint(0,1) == 0:
-        return('Machine goes first')
-    else:
-        return('Human goes first')
-
-
 def main():
     """Main Loop for running our Game"""
     print(welcome, directions)
     copy = blank_board()
-    player = print(get_piece())
-    turn = first_player()
-    playing = True
+    get_piece()
+    first = first_player()
+    i = 1
     # true loop of game
-    while playing:
+    while True:
+        first
         print(get_board(copy))
-        
-        while not empty_space(copy, turn): 
+                
+        while not empty_space(copy): 
+            player=[X,O]
+            i = 0
+            for i in range(10):
+                if i % 2 == 0:
+                    player[0]
+                else: 
+                    player[1]
+
             print('{} Its your turn to play. Choose a spot'.format(player))
             turn = input()
-        make_move(copy, turn, player)
-        
-        if check_win(player, copy):
-            print(get_board(copy))
+            marker(copy, turn, player)
+            i+=1
+            
+            if check_win(copy):
+                print(get_board(copy))
+                break
+            elif check_tie(copy):
+                print(get_board(copy))
+                break
+        if not replay(): 
             break
-        elif minimax(copy):
-            print(get_board(copy))
-            break
-        turn
-    return ('would you like to play again')
+        else: 
+            i = 1
+            player = input()
+logging.debug('End of Program')
+
+def replay():
+    playAgain = input("Do you want to play again (y/n) ? ")
+    if playAgain.lower() == 'y':
+        return True
+    if playAgain.lower() == 'n':
+        return False
+
+def get_piece():
+    """Defines which piece the user is and whether they go first or second"""
+    piece = ""
+    while piece != 'X' and piece != 'O':
+        print("To Play Please Select Either X's or O's:  ")
+        piece = input().upper()
+        try:
+            if piece == 'X':
+                return 'X'
+            elif piece == 'O': 
+                return 'O'
+        except ValueError(exception):
+            exception = ("Invalid entry please")
+            print(exception)
+        else: 
+            return piece
+     
+def first_player():
+    if random.randint(0,1) == 0:
+        return X
+    else:
+        return O
+
 
 def get_board(board):
-    '''Displays board with index starting in top left and finishing in bottom right [0:8]'''
+    '''Displays visual representation  of board'''
     return """
  ____________________ 
 |      |      |      |
@@ -88,33 +115,33 @@ def get_board(board):
 def blank_board():
     """Displays a blank copy of the board"""
     blank = {}
-    for i in BOARD_KEYS:
-        blank[i]= ' '
+    for free_space in BOARD_KEYS:
+        blank[free_space]= BLANK
     return blank
 
-def make_move(board, move, piece):
+def make_move(board, free_space, piece):
     """Displays move"""
-    if empty_space(move):
-        board[move] = piece
-        try:
-            minimax
-            x = input('Give me a number between 1 and 9: ')
-            if x == 'q':
-                exit
-            x=int(x)
-        except ValueError:
-            print('Invalid number, Only numbers in empty spaces')
-        else:
-            if(check_tie()):
-                print("Tie Game!")
+    if empty_space(free_space, piece):
+        board[free_space] = piece
+    ''' try:
+        minimax
+        x = input('Give me a number between 1 and 9: ')
+        if x == 'q':
+            exit
+        x=int(x)
+    except ValueError:
+        print('Invalid number, Only numbers in empty spaces')
+    else:
+        if(check_tie()):
+            print("Tie Game!")
 
-            elif check_win():
-                if piece == 'X':
-                    print("Computer wins!")
-                    return
-                else:
-                    print("Player wins!")
-                    return
+        elif check_win():
+            if piece == 'X':
+                print("Computer wins!")
+                return
+            else:
+                print("Player wins!")
+                return '''
     
 def empty_space(board, free_space):
     '''Check if space is free on the board'''
@@ -123,8 +150,8 @@ def empty_space(board, free_space):
 def check_tie(board):
     '''Checks board for a Tie'''
     logging.info("Checking for a tie")
-    for key in board.keys():
-        if board[key] == BLANK:
+    for free_space in BOARD_KEYS:
+        if board[free_space] == BLANK:
             return False
         else:
             return ("Game is a Tie")
@@ -132,32 +159,32 @@ def check_tie(board):
 def check_win(board, player):
     '''Checks for winner using the board'''
     i, mark = board, player 
-    return(
-    (i['1'] == i['2'] == i['3'] == mark) or  # 1. top_horizon
-    (i['4'] == i['5'] == i['6'] == mark) or  # 2. mid_horizon
-    (i['7'] == i['8'] == i['9'] == mark) or  # 3. bottom_horizon
-    (i['1'] == i['4'] == i['7'] == mark) or  # 4. left_vertical
-    (i['2'] == i['5'] == i['8'] == mark) or  # 5. middle_vertical
-    (i['3'] == i['6'] == i['9'] == mark) or  # 6. right_vertical
-    (i['1'] == i['5'] == i['9'] == mark) or  # 7. tl_br
-    (i['3'] == i['5'] == i['7'] == mark))    # 8. tr_bl
+    return ((i['1'] == i['2'] == i['3'] == mark) or  # 1. top_horizon
+            (i['4'] == i['5'] == i['6'] == mark) or  # 2. mid_horizon
+            (i['7'] == i['8'] == i['9'] == mark) or  # 3. bottom_horizon
+            (i['1'] == i['4'] == i['7'] == mark) or  # 4. left_vertical
+            (i['2'] == i['5'] == i['8'] == mark) or  # 5. middle_vertical
+            (i['3'] == i['6'] == i['9'] == mark) or  # 6. right_vertical
+            (i['1'] == i['5'] == i['9'] == mark) or  # 7. tl_br
+            (i['3'] == i['5'] == i['7'] == mark))    # 8. tr_bl
 
 
-def minimax(self, max, board, computer, player):
+
+def minimax(board):
     '''criteria for Minimax'''
     
-    if check_win(computer):
+    if check_win == False:
         return -100
-    elif check_win(player):
+    elif check_win == True:
         return 100
     elif check_tie():
         return 0
     
     if max:
         bestScore = -100
-        for key in board.keys():
+        for key in BOARD_KEYS:
             if (board[key] == ''):
-                board[key] = computer
+                board[key] = False
                 score = (board, 0, False)
                 return False    
             elif (score > bestScore):
@@ -166,14 +193,18 @@ def minimax(self, max, board, computer, player):
 
     else:
         bestScore = 100
-        for key in board.keys():
+        for key in BOARD_KEYS:
             if (board[key] == ''):
-                board[key] = player
-                score = self(board, 0, True)
+                board[key] = True
+                score = (board, 0, True)
                 if (score < bestScore):
                     bestScore = score
         return bestScore
 
+def marker(board, free_space, spot):
+    """draw on the board"""
+    board[free_space] = spot
+
 if __name__ == '__main__':
-    logging.debug('End of Program')
+ 
     main()
