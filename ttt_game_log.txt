@@ -1,2 +1,0 @@
-2022-03-12 14:49:00,688 - DEBUG - Start of Program
-2022-03-12 14:49:00,688 - DEBUG - End of Program

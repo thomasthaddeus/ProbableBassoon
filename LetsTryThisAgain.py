@@ -28,6 +28,13 @@ class TicTacToe:
         self.player = player
         self.computer = computer
 
+    def main():
+        '''Run the game'''
+        
+        while True:
+            while not spaceIsFree(board, computer):
+                print(getBoard(board))
+            X, O = O, X
     # Part 5
     # prints the board
     # 5,1,3,7,9,2,4,6,8    
@@ -83,7 +90,6 @@ class TicTacToe:
         (i[1] == i[5] == i[9] == mark) or  # 7. tl_br
         (i[3] == i[5] == i[7] == mark))    # 8. tr_bl
 
-
     def minimax(self, board, isMaximizing, computer, player):
         '''criteria for Minimax'''
         self.computer = computer
@@ -117,11 +123,8 @@ class TicTacToe:
                         bestScore = score
             return bestScore
 
-
-
-
-
-
+    if __name__ == '__main__': 
+        main()
 # Part 7
 # Program Logs All Files
 # Logs all moves in file(tictactoe.txt)
@@ -130,3 +133,4 @@ class TicTacToe:
 # PArt 8 Handle input error
 print('t') # TODO: check
 #raise Exception('Doesnt work')
+

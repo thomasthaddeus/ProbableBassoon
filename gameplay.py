@@ -127,3 +127,6 @@ def test_way(cell_list):
     return num_x, num_o, num_blanks
 
 main()
+
+x=abs(int(float(-4.5+3.2)))
+print(x-1j)

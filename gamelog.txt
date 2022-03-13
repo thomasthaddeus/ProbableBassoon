@@ -1,0 +1,4 @@
+2022-03-13 03:03:15,883 - INFO - Start of Program
+2022-03-13 03:03:15,883 - INFO - End of Program
+2022-03-13 03:15:39,835 - INFO - Start of Program
+2022-03-13 03:15:39,836 - INFO - End of Program
