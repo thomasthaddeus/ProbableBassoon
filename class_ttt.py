@@ -30,22 +30,22 @@ def main():
     """Main Loop for running our Game"""
     print(welcome, directions)
     bb = blank_board()
-    get_piece()
-    uno = player_one()
+    get_piece(player)
+    uno = player_one(player)
     # true loop of game
     while True:
         print(get_board(bb))
-                
-        while not empty_space(bb, uno): 
-            print('{} Its your turn to play. Choose a move'.format(uno))
+
+        while not empty_space(bb):
+            print("{} Its your turn to play. Choose a move".format("X"))
             turn = input()
             marker(bb, turn, player)
-            i+=1
-            
+            # i += 1
+
             try:
                 input(bb)
             except ValueError:
-                raise logging.info()
+                logging.info("Information is")
             else:
                 if check_win(bb, player):
                     print(get_board(bb))
@@ -56,21 +56,22 @@ def main():
         if not replay(): 
             break
         else: 
-            i = 1
+            # i = 1
             player = input()
 logging.info('End of Program')
 
 def replay():
-    playAgain = input("Do you want to play again (Y)es / (N)o ?")
+    """Asks if you want to replay TicTacToe"""
+    play_again = input("Do you want to play again (Y)es / (N)o ?")
     try:
-        if playAgain.upper() == 'Y':
+        if play_again.upper() == 'Y':
             return True
-        elif playAgain.upper() == 'N':
+        elif play_again.upper() == 'N':
             return False
     except ValueError:
-        raise logging.exception
+        print("Value Error: ")
     else: 
-        return main()
+        main()
 
 def get_piece():
     """Defines which piece the user is and whether they go uno or second"""
@@ -87,12 +88,13 @@ def get_piece():
             print('Please input either X\'s or O\'s')
         else: 
             return piece
- 
-def player_one():
-    if random.choice(0,1)==0:
-        return 'computer'
+
+def player_one(computer, player):
+    '''Who goes first'''
+    if random.randint(0,1)==0:
+        return computer
     else:
-        return 'player'
+        return player
 
 def blank_board():
     """Displays a blank bb of the board"""
@@ -128,7 +130,7 @@ def check_win(board, player):
             (i['2'] == i['5'] == i['8'] == mark) or  # 5. middle_vertical
             (i['3'] == i['6'] == i['9'] == mark) or  # 6. right_vertical
             (i['1'] == i['5'] == i['9'] == mark) or  # 7. tl_br
-            (i['3'] == i['5'] == i['7'] == mark))    # 8. tr_bl    
+            (i['3'] == i['5'] == i['7'] == mark))    # 8. tr_bl
 
 def marker(board, free_space, move):
     """draw on the board"""
@@ -141,7 +143,7 @@ def empty_space(board, free_space):
 def make_move(board, free_space, piece):
     """Makes a move on the board"""
     board[free_space] = piece
-    
+
 def check_tie(board):
     '''Checks board for a Tie'''
     logging.info("Checking for a tie")
@@ -151,36 +153,35 @@ def check_tie(board):
         else:
             return ("Game is a Tie")
 
-def minimax(board): # still not implemented
-    '''criteria for Minimax'''
-    
-    if check_win == False:
-        return -100
-    elif check_win == True:
-        return 100
-    elif check_tie():
-        return 0
-    
-    if max:
-        bestScore = -100
-        for key in BOARD_KEYS:
-            if (board[key] == ''):
-                board[key] = False
-                score = (board, 0, False)
-                return False    
-            elif (score > bestScore):
-                bestScore = score 
-        return bestScore
+# def minimax(board): # still not implemented
+#     '''criteria for Minimax'''
+#     if check_win == False:
+#         return -100
+#     elif check_win == True:
+#         return 100
+#     elif check_tie():
+#         return 0
 
-    else:
-        bestScore = 100
-        for key in BOARD_KEYS:
-            if (board[key] == ''):
-                board[key] = True
-                score = (board, 0, True)
-                if (score < bestScore):
-                    bestScore = score
-        return bestScore
+    # if max:
+    #     bestScore = -100
+    #     for key in BOARD_KEYS:
+    #         if (board[key] == ''):
+    #             board[key] = False
+    #             score = (board, 0, False)
+    #             return False
+    #         elif (score > bestScore):
+    #             bestScore = score 
+    #     return bestScore
+
+    # else:
+    #     bestScore = 100
+    #     for key in BOARD_KEYS:
+    #         if (board[key] == ''):
+    #             board[key] = True
+    #             score = (board, 0, True)
+    #             if (score < bestScore):
+    #                 bestScore = score
+    #     return bestScore
 
 if __name__ == '__main__':
     main()
