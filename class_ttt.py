@@ -1,4 +1,3 @@
-#!class_ttt.py
 #####################################
 ##          TIC TAC TOE            ##
 ##  by Stephanie Ort, Thad Thomas  ##
@@ -16,8 +15,7 @@ logging.basicConfig(filename='gamelog.txt',
 logging.info('Start of Program')
 #Constant Variables
 BOARD_KEYS = list('123456789')
-X, O, BLANK = 'X', 'O', " "
-
+BLANK = " "
 
 W = ("Welcome to Tic Tac Toe\n")
 D = ("""Directions::
@@ -29,33 +27,29 @@ D = ("""Directions::
 def main():
     """Main Loop for running our Game"""
     print(W, D)
-    bb = blank_board()
-    get_piece(piece)
-    uno = player_one(player)
+    b_b = blank_board()
+    get_piece()
+    player, computer = "X", "O"
     # true loop of game
     while True:
-        print(get_board(bb))
+        print(get_board(b_b))
 
-        while not empty_space(bb):
-            print("{} Its your turn to play. Choose a move".format(uno))
+        while not empty_space(b_b, computer, player):
+            print("Its your turn to play. Choose a move")
             turn = input()
-            marker(bb, turn, player)
+            marker(b_b, turn)
             # i += 1
-
-            try:
-                input(bb)
-            except ValueError:
-                logging.info("Information is")
-            else:
-                if check_win(bb, player):
-                    print(get_board(bb))
-                    break
-                elif check_tie(bb):
-                    print(get_board(bb))
-                    break
-        if not replay(): 
+            input(b_b)
+            if check_win(b_b, player):
+                print(get_board(b_b))
+                break
+            elif check_tie(b_b):
+                print(get_board(b_b))
+                break
+            player, computer = computer, player
+        if not replay():
             break
-        else: 
+        else:
             # i = 1
             player = input()
 logging.info('End of Program')
@@ -70,10 +64,10 @@ def replay():
             return False
     except ValueError:
         print("Value Error: ")
-    else: 
+    else:
         main()
 
-def get_piece(piece):
+def get_piece():
     """Defines which piece the user is and whether they go uno or second"""
     piece = ""
     while piece != 'X' and piece != 'O':
@@ -86,7 +80,7 @@ def get_piece(piece):
                 return 'O'
         except ValueError:
             print("Value error")
-        else: 
+        else:
             return piece
 
 def player_one(computer, player):
@@ -97,7 +91,7 @@ def player_one(computer, player):
         return player
 
 def blank_board():
-    """Displays a blank bb of the board"""
+    """Displays a blank b_b of the board"""
     blank = {}
     for free_space in BOARD_KEYS:
         blank[free_space]= BLANK
@@ -105,24 +99,22 @@ def blank_board():
 
 def get_board(board):
     '''Displays visual representation  of board'''
-    return """
- ____________________ 
-|      |      |      |
-|  {}   |   {}  |   {}  | 1 2 3
-|______|______|______|
-|      |      |      |
-|  {}   |   {}  |   {}  | 4 5 6
-|______|______|______|
-|      |      |      |
-|  {}   |   {}  |   {}  | 7 8 9
-|______|______|______|
-""".format(board['1'],board['2'],board['3'],
-           board['4'],board['5'],board['6'],
-           board['7'],board['8'],board['9'])
+    return """____________________ \n
+            |      |      |      |\n
+            |  {}   |   {}  |   {}  | 1 2 3\n
+            |______|______|______|\n
+            |      |      |      |\n
+            |  {}   |   {}  |   {}  | 4 5 6\n
+            |______|______|______|\n
+            |      |      |      |\n
+            |  {}   |   {}  |   {}  | 7 8 9
+            |______|______|______|""".format(board['1'],board['2'],board['3'],
+                                             board['4'],board['5'],board['6'],
+                                             board['7'],board['8'],board['9'])
 
 def check_win(board, player):
     '''Checks for winner using the board'''
-    i, mark = board, player 
+    i, mark = board, player
     return ((i['1'] == i['2'] == i['3'] == mark) or  # 1. top_horizon
             (i['4'] == i['5'] == i['6'] == mark) or  # 2. mid_horizon
             (i['7'] == i['8'] == i['9'] == mark) or  # 3. bottom_horizon
@@ -151,7 +143,7 @@ def check_tie(board):
         if board[free_space] == BLANK:
             return False
         else:
-            return ("Game is a Tie")
+            return "Game is a Tie"
 
 # def minimax(board): # still not implemented
 #     '''criteria for Minimax'''
@@ -170,7 +162,7 @@ def check_tie(board):
     #             score = (board, 0, False)
     #             return False
     #         elif (score > bestScore):
-    #             bestScore = score 
+    #             bestScore = score
     #     return bestScore
 
     # else:

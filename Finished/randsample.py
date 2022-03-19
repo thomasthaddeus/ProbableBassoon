@@ -4,6 +4,7 @@
 import random
 
 def main():
+    '''Main program'''
     print('Welcome to Tic-Tac-Toe!')
     while True:
         # Reset the board.
@@ -51,9 +52,7 @@ def main():
             break
 
 def drawBoard(board):
-    """This function prints out the board that it was passed.
-       "board" is a list of 9 strings representing the board .
-    """
+    """This function prints out the board that it was passed."""
     print(board[0] + '|' + board[1] + '|' + board[2] + 'tt1 2 3')
     print('-+-+-')
     print(board[3] + '|' + board[4] + '|' + board[5] + 'tt4 5 6')
