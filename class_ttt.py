@@ -180,7 +180,7 @@ def make_best_move(board,free_space):
     best_move = None
     for free_space in blank_board():
         mark_board(board, free_space,best_move)
-        score = minimax(False, O, board)
+        score = max(False, O, board)
         board.undo()
         if score > best_score:
             best_score = score
@@ -198,7 +198,7 @@ def minimax(board,winner,mark):
     score = []
     for mark in game:
         mark_board(blank_board(),mark,O)
-        score.append(minimax(not O, winner))
+        score.append(min(not O, winner))
         board.undo()
 
     return max(score) if O else min(score)
