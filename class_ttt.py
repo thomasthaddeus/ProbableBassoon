@@ -58,7 +58,7 @@ def main():
                     turn = p_2
 
             else:
-                move= make_best_move(move,b_b)
+                move = minimax(b_b, p_2,O)
                 mark_board(b_b,move,p_2)
                 if check_win(b_b, p_2):
                     print(get_board(b_b))
@@ -95,10 +95,10 @@ def get_move():
         print("To Play Please Select Either X's or O's:  ")
         move = input().upper()
         try:
-            if move == 'X' :
-                return 'X'
-            elif move == 'O':
-                return 'O'
+            if move == 'X':
+                move ='O'
+            else:
+                move = 'X'
         except ValueError:
             print("Value error")
         else:
@@ -108,11 +108,11 @@ def player_one():
     '''Who goes first'''
     if random.randint(0,1)==0:
         return "O" # Computer
-    else:
         return "X" # Player
 
 def blank_board():
     """Displays a blank b_b of the board"""
+    logging.debug("check the board for blank spot")
     board = {}
     for free_space in BOARD_KEYS:
         board[free_space]= BLANK
@@ -120,8 +120,9 @@ def blank_board():
 
 def get_board(board):
     '''Displays visual representation  of board'''
+    logging.info("get the board")
     topl,topm,topr = board['1'],board['2'],board['3']
-    midl,mid,midr = board['4'],board['5'],board['6']
+    midl,mid,midr  = board['4'],board['5'],board['6']
     botl,botm,botr = board['7'],board['8'],board['9']
     board = f"""
 ___________________
@@ -152,6 +153,7 @@ def check_win(board, winner):
 
 def mark_board(board, free_space, mark):
     """draw on the board"""
+    logging.info("Placing Piece on Board on board")
     board[free_space] = mark
 
 def empty_space(board, free_space):
@@ -160,6 +162,7 @@ def empty_space(board, free_space):
 
 def make_move(board, free_space, move):
     """Makes a move on the board"""
+    logging.info("Making a move on the board")
     board[free_space] = move
 
 def check_tie(board):
@@ -171,34 +174,34 @@ def check_tie(board):
         else:
             return "Game is a Tie"
 
-def make_best_move(board, move, free_space, mark):
+def make_best_move(board,free_space):
     '''Find The best move for the board'''
     best_score = -np.inf
     best_move = None
-    for move in empty_space(free_space,move):
-        mark_board(board, free_space, mark)
-        score = minimax(False, 'O', board[free_space])
+    for free_space in blank_board():
+        mark_board(board, free_space,best_move)
+        score = minimax(False, O, board)
         board.undo()
         if score > best_score:
             best_score = score
-            best_move = mark
-    mark_board(board, free_space, best_move)
+            best_move = free_space
+    return make_move(board, free_space, best_move)
 
-def minimax(computer_turn, computer_move,winner, board):
+def minimax(board,winner,mark):
     '''minimax decision tree'''
     game = get_board(board)
-    if game is check_tie:
+    if game is check_tie(board):
         return 0
-    elif game is check_win:
-        return 1 if check_win(board, winner) is winner else -1
+    elif game is check_win(board,winner):
+        return 1 if check_win(board, winner) is max else -1
 
     score = []
-    for move in make_best_move(computer_turn,computer_move,board):
-        make_best_move(board,move)
-        score.append(minimax(not computer_turn, computer_move, board))
+    for mark in game:
+        mark_board(blank_board(),mark,O)
+        score.append(minimax(not O, winner))
         board.undo()
 
-    return max(score) if computer_turn else min(score)
+    return max(score) if O else min(score)
 
 if __name__ == '__main__':
     main()
