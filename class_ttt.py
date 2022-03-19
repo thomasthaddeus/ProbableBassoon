@@ -33,28 +33,46 @@ def main():
     """Main Loop for running our Game"""
     print(W, D)
     b_b = blank_board()
-    get_move()
-    p_1, p_2 = X, O
-    # true loop of game
+    p_1, p_2 = "X", "O"
+    turn = player_one()
 
+    # true loop of game
     while True:
         print(get_board(b_b))
         move = None
         while not empty_space(b_b, move):
-            print(f"{p_1} Its your turn to play. Choose a move")
-            move = input()
-        mark_board(b_b,move,p_1)
+            if turn == p_1:
+                print(f"{p_1} Its your turn to play. Choose a move")
+                move = input()
+                mark_board(b_b,move,p_1)
 
-        if check_win(b_b, p_1):
-            print(get_board(b_b))
-            print('Winner, Winner, chicken dinner')
+                if check_win(b_b, p_1):
+                    print(get_board(b_b))
+                    print('Winner, Winner, chicken dinner')
+                    break
+                elif check_tie(b_b):
+                    print(get_board(b_b))
+                    print('Theres only ties in this game')
+                    break
+                else:
+                    turn = p_2
+
+            else:
+                move= make_best_move(move,b_b)
+                mark_board(b_b,move,p_2)
+                if check_win(b_b, p_2):
+                    print(get_board(b_b))
+                    print('you lose')
+                    break
+                elif check_tie(b_b):
+                    print(get_board(b_b))
+                    print('Theres only ties in this game')
+                    break
+                else:
+                    turn = p_1
+        if not replay():
+            print('End of Game')
             break
-        elif check_tie(b_b):
-            print(get_board(b_b))
-            print('Theres only ties in this game')
-            break
-        p_1, p_2 = p_2, p_1
-    print('End of Game')
 logging.info('End of Program')
 
 def replay():
@@ -86,12 +104,12 @@ def get_move():
         else:
             return move
 
-def player_one(p_1, p_2):
+def player_one():
     '''Who goes first'''
     if random.randint(0,1)==0:
-        return p_1
+        return "O" # Computer
     else:
-        return p_2
+        return "X" # Player
 
 def blank_board():
     """Displays a blank b_b of the board"""
@@ -100,11 +118,11 @@ def blank_board():
         board[free_space]= BLANK
     return board
 
-
-
 def get_board(board):
     '''Displays visual representation  of board'''
-    topl,topm,topr,midl,mid,midr,botl,botm,botr = board['1'],board['2'],board['3'],board['4'],board['5'],board['6'],board['7'],board['8'],board['9']
+    topl,topm,topr = board['1'],board['2'],board['3']
+    midl,mid,midr = board['4'],board['5'],board['6']
+    botl,botm,botr = board['7'],board['8'],board['9']
     board = f"""
 ___________________
 |     |     |     |
@@ -120,9 +138,9 @@ ___________________
     return board
 
 
-def check_win(board, player):
+def check_win(board, winner):
     '''Checks for winner using the board'''
-    i, mark = board, player
+    i, mark = board, winner
     return ((i["1"] == i["2"] == i["3"] == mark) or  # 1. top_horizon
             (i["4"] == i["5"] == i["6"] == mark) or  # 2. mid_horizon
             (i["7"] == i["8"] == i["9"] == mark) or  # 3. bottom_horizon
@@ -153,31 +171,30 @@ def check_tie(board):
         else:
             return "Game is a Tie"
 
-def make_best_move(board, move, free_space, mark, p_1):
+def make_best_move(board, move, free_space, mark):
     '''Find The best move for the board'''
     best_score = -np.inf
     best_move = None
     for move in empty_space(free_space,move):
         mark_board(board, free_space, mark)
-        score = minimax(False, O, board)
+        score = minimax(False, 'O', board[free_space])
         board.undo()
         if score > best_score:
             best_score = score
             best_move = mark
-    make_move(best_move, p_1)
+    mark_board(board, free_space, best_move)
 
-def minimax(computer_turn, computer_move, board):
+def minimax(computer_turn, computer_move,winner, board):
     '''minimax decision tree'''
-
     game = get_board(board)
     if game is check_tie:
         return 0
     elif game is check_win:
-        return 1 if check_win(blank_board, computer_move, board) is computer_move else -1
+        return 1 if check_win(board, winner) is winner else -1
 
     score = []
-    for move in board.get_possible_moves():
-        board.make_move(move)
+    for move in make_best_move(computer_turn,computer_move,board):
+        make_best_move(board,move)
         score.append(minimax(not computer_turn, computer_move, board))
         board.undo()
 
