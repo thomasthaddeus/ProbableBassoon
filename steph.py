@@ -1,4 +1,3 @@
-#####################################
 
 #####################################
 ##          TIC TAC TOE            ##
@@ -10,7 +9,9 @@
 #####################################
 import random 
 import logging
-logging.basicConfig(filename='gamelog.txt',filemode='a',level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='gamelog.txt',
+                    filemode='a',level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 logging.info('Start of Program')
 BOARD_KEYS = list('123456789')
 X, O, BLANK = 'X', 'O', " "
@@ -18,6 +19,47 @@ X, O, BLANK = 'X', 'O', " "
 tttBoard = {'1': ' ', '2': ' ', '3': ' ',
             '4': ' ', '5': ' ', '6': ' ',
             '7': ' ', '8': ' ', '9': ' '}
+def main():
+    '''main file'''
+    #Welcome and begin
+    print("Welcome to Tic Tac Toe!")
+    print("Enter 'q' to quit at anytime!\n")
+
+    # 1. choose who is going for the first turn
+    # 2. choose X or O
+    # 3. begin
+
+    #Places X's or O's on the board
+    order = get_piece() # order should have [O, X] or [X, O]
+    print("order = ", order)
+    computer = O
+    player =X
+    for spot in range(9):
+        # tttBoard[i] = get_piece() #[O,X] [X,O]
+        get_board(tttBoard)
+        spot = input('Choose a spot 1-9:')
+        print("your spot = ", spot)
+
+        
+    # true loop of game
+    while True:
+        print(get_board(tttBoard))
+        while not empty_space(tttBoard, spot):
+            print("{} Its your turn to play. Choose a move".format("X"))
+            turn = input()
+            marker(tttBoard, turn, spot)
+            # i += 1
+            input(tttBoard)
+
+
+            if check_win(tttBoard, player):
+                print(get_board(tttBoard))
+                break
+            elif check_tie(tttBoard):
+                print(get_board(tttBoard))
+                break
+            player, computer = computer, player
+logging.info('End of Program')
 
 def get_board(board):
     '''Displays visual representation  of board'''
@@ -38,27 +80,25 @@ def get_piece():
         elif piece == 'O':
             print('Computer goes first!')
             return 'O','X'
-        else: 
+        else:
             print('x or o?')
-    
-            
+
 def player_one(computer, player):
     '''Who goes first'''
     if random.randint(0,1)==0:
         return computer
     else:
         return player
-        
 
-# Best_Moves = [5,1,7,3,2,9,8,6,4]
+# Best_Moves = ['5,1,7,3,2,9,8,6,4']
 
 def marker(board, free_space, move):
     """draw on the board"""
-    board[free_space] = move      
+    board[free_space] = move
 
 def check_win(board, player):
     '''Checks for winner using the board'''
-    i, mark = board, player 
+    i, mark = board, player
     return ((i['1'] == i['2'] == i['3'] == mark) or  # 1. top_horizon
             (i['4'] == i['5'] == i['6'] == mark) or  # 2. mid_horizon
             (i['7'] == i['8'] == i['9'] == mark) or  # 3. bottom_horizon
@@ -81,73 +121,23 @@ def check_tie(board):
         else:
             return ("Game is a Tie")
 
-   
-def main():
-    '''main file'''
-    #Welcome and begin
-    print("Welcome to Tic Tac Toe!")
-    print("Enter 'q' to quit at anytime!\n")
 
-    # 1. choose who is going for the first turn
-    # 2. choose X or O
-    # 3. begin
 
-   #Places X's or O's on the board 
-    order = get_piece() # order should have [O, X] or [X, O]
-    print("order = ", order)    
-    for i in range(9):
-        # tttBoard[] = get_piece() #[O,X] [X,O]
-        get_board(tttBoard)
-        spot = input('Choose a spot 1-9:')
-        print("your spot = ", spot)        
-
-        
-    # true loop of game
-    while True:
-        print(get_board(tttBoard))
-
-        while not empty_space(tttBoard):
-            print("{} Its your turn to play. Choose a move".format("X"))
-            turn = input()
-            marker(tttBoard, turn, move)
-            # i += 1
-
-            try:
-                input(tttBoard)
-            except ValueError:
-                logging.info("Information is")
-            else:
-                if check_win(tttBoard, player):
-                    print(get_board(tttBoard))
-                    break
-                elif check_tie(tttBoard):
-                    print(get_board(tttBoard))
-                    break
-        if not replay(): 
-            break
-        else: 
-            # i = 1
-            player = input()
-logging.info('End of Program')
-
-def replay():
-    playAgain = input("Do you want to play again (Y)es / (N)o ?")
-    """Asks if you want to replay TicTacToe"""
-    try:
-        if playAgain.upper() == 'Y':
-            return True
-        elif playAgain.upper() == 'N':
-            return False
-    except ValueError:
-        raise logging.exception
-        print("Value Error: ")
-    else: 
-        return main()
+# def replay():
+#     playAgain = input("Do you want to play again (Y)es / (N)o ?")
+#     """Asks if you want to replay TicTacToe"""
+#     try:
+#         if playAgain.upper() == 'Y':
+#             return True
+#         elif playAgain.upper() == 'N':
+#             return False
+#     except ValueError:
+#         raise logging.exception
+#         print("Value Error: ")
+#     else: 
+#         return main()
     
 # get_board(tttBoard)
 
 # if __name__ == 'main':
 main()  
-
-
-
