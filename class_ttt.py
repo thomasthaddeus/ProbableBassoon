@@ -1,5 +1,4 @@
-#####################################
-
+#!class_ttt.py
 #####################################
 ##          TIC TAC TOE            ##
 ##  by Stephanie Ort, Thad Thomas  ##
@@ -7,37 +6,38 @@
 ##    Fundamentals of Computing    ##
 #####################################
 
-#####################################
 
 from asyncio import __all__
 import random
 import logging
-logging.basicConfig(filename='gamelog.txt',filemode='a',level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='gamelog.txt',
+                    filemode='a',level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 logging.info('Start of Program')
 #Constant Variables
 BOARD_KEYS = list('123456789')
 X, O, BLANK = 'X', 'O', " "
 
 
-welcome = ("Welcome to Tic Tac Toe\n")
-directions = ("""Directions::
-                \nuno: Choose your piece: X or O.
-                \nThe computer randomly decides who goes uno.
-                \nThen pick a move on the board.
-                \nUse the numbers 1-9 to pick a move on the board.""")
+W = ("Welcome to Tic Tac Toe\n")
+D = ("""Directions::
+     \nuno: Choose your piece: X or O.
+     \nThe computer randomly decides who goes uno.
+     \nThen pick a move on the board.
+     \nUse the numbers 1-9 to pick a move on the board.""")
 
 def main():
     """Main Loop for running our Game"""
-    print(welcome, directions)
+    print(W, D)
     bb = blank_board()
-    get_piece(player)
+    get_piece(piece)
     uno = player_one(player)
     # true loop of game
     while True:
         print(get_board(bb))
 
         while not empty_space(bb):
-            print("{} Its your turn to play. Choose a move".format("X"))
+            print("{} Its your turn to play. Choose a move".format(uno))
             turn = input()
             marker(bb, turn, player)
             # i += 1
@@ -73,7 +73,7 @@ def replay():
     else: 
         main()
 
-def get_piece():
+def get_piece(piece):
     """Defines which piece the user is and whether they go uno or second"""
     piece = ""
     while piece != 'X' and piece != 'O':
@@ -84,8 +84,8 @@ def get_piece():
                 return 'X'
             elif piece == 'O':
                 return 'O'
-        except: 
-            print('Please input either X\'s or O\'s')
+        except ValueError:
+            print("Value error")
         else: 
             return piece
 

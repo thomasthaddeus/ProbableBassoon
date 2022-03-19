@@ -30,7 +30,6 @@ class TicTacToe:
 
     def main():
         '''Run the game'''
-        
         while True:
             while not spaceIsFree(board, computer):
                 print(getBoard(board))
@@ -42,8 +41,7 @@ class TicTacToe:
         '''Displays board with index starting in top left and finishing in bottom right [0:8]'''
         board['a1':'1', 'b1':'2', 'c1':'3',
               'a2':'4', 'b2':'5', 'c2':'6',
-              'a3':'7', 'b3':'8', 'c3':'9']=(
-                """
+              'a3':'7', 'b3':'8', 'c3':'9']=("""
                  ____________________
                 |      |      |      |
                 | {a1} | {b1} | {c1} | '1' '2' '3'
@@ -53,8 +51,7 @@ class TicTacToe:
                 |______|______|______|
                 |      |      |      |
                 | {a3} | {b3} | {c3} | '7' '8' '9'
-                |______|______|______|""".strip()
-            )
+                |______|______|______|""".strip())
         return board
     
     #Part 3
