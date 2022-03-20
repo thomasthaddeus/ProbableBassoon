@@ -8,6 +8,7 @@ Play TicTacToe
 ##    Fundamentals of Computing    ##
 #####################################
 
+from audioop import minmax
 import logging
 import random
 from asyncio import __all__
@@ -21,6 +22,7 @@ logging.info('Start of Program')
 #Constant Variables
 BOARD_KEYS = list('123456789')
 X, O, BLANK = "X", "O", " "
+
 
 W = ("Welcome to Tic Tac Toe\n")
 D = ("""Directions::
@@ -77,7 +79,7 @@ def replay():
     if play_again.upper() == 'N':
         print('Thanks for playing TicTacToe')
     else:
-        return main()
+        main()
 
 def get_move():
     """Defines which move the user is and whether they go uno or second"""
@@ -166,40 +168,43 @@ def check_tie(board):
             return False
         else:
             return main()
+        
+class Minimax:
+    '''Minimax'''
+    winner = {}
+    def make_best_move(self, board, p_2):
+        '''Find The best move for the board'''
+        logging.info("Making a best move on the board")
+        best_score = -np.inf
+        best_move = None
+        for move in blank_board():  # Empty Board
+            make_move(best_move, O, board)  # Computer Make a move on the board
+            score = minmax(False, p_2, board)
+            board.undo()
 
-def make_best_move(board):
-    '''Find The best move for the board'''
-    logging.info("Making a best move on the board")
-    best_score = -np.inf
-    best_move = None
-    for move in blank_board():
-        mark_board(board, best_move)
-        score = minimax(False, O, board)
-        board.undo()
-        if score > best_score:
-            best_score = score
-            best_move = move
-    make_move(best_move)
-#TODO: spot  in score is computer
+            if (score > best_score):
+                best_score = score
+                best_move = move
+        get_board(best_move)
 
+    def minimax(self, board, turn, computer_piece):
+        '''minimax decision tree'''
+        logging.debug("Loading Minimax tree")
 
-def minimax(board,winner):
-    '''minimax decision tree'''
-    logging.debug("Loading Minimax tree")
-    game = get_board(board)
-    if game is check_tie(board):
-        return 0
-    elif game is check_win(board,winner):
-        return 1 if check_win(board, winner) is O else -1
+        game = get_board(board)
+        if game is check_tie(board):
+            return 0
+        elif game is replay():
+            return 1 if check_win(board) is computer_piece else -1
 
-    score = []
-    for best_move in game:
-        mark_board(blank_board(),best_move,O)
-        score.append(minimax(not make_best_move, board))
-        board.undo()
+        score = []
+        for best_move in board:
+            mark_board(blank_board(),best_move,O)
+            score.append(minimax(not turn, computer_piece, O))
+            board.undo()
 
-    return max(score) if O else min(score)
+        return max(score) if O else min(score)
 
-logging.info('End of Program')
-if __name__ == '__main__':
-    main()
+    logging.info('End of Program')
+    if __name__ == '__main__':
+        main()

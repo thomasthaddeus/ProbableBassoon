@@ -6,7 +6,7 @@ import numpy as np
 class MiniMax:
     '''algorithm for minimax'''
 
-    def make_best_move(board):
+    def make_best_move(self,board,p_2):
         '''returns the best move for minimax'''
         best_score = -np.inf
         best_move = None
