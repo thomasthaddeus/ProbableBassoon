@@ -49,11 +49,9 @@ def main():
                 if check_win(b_b, p_1):
                     print(get_board(b_b))
                     print('Winner, Winner, chicken dinner')
-                    break
                 elif check_tie(b_b):
                     print(get_board(b_b))
                     print('Theres only ties in this game')
-                    break
                 else:
                     turn = p_2
 
@@ -63,39 +61,32 @@ def main():
                 if check_win(b_b, p_2):
                     print(get_board(b_b))
                     print('you lose')
-                    break
                 elif check_tie(b_b):
                     print(get_board(b_b))
                     print('Theres only ties in this game')
-                    break
                 else:
                     turn = p_1
         if not replay():
             print('End of Game')
             break
-logging.info('End of Program')
 
 def replay():
     """Asks if you want to replay TicTacToe"""
+    logging.info('Replaying TicTacToe')
     play_again = input("Do you want to play again (Y)es / (N)o ?")
-    try:
-        if play_again.upper() == 'Y':
-            return True
-        elif play_again.upper() == 'N':
-            return False
-    except ValueError:
-        print("Value Error: ")
+    if play_again.upper() == 'N':
+        print('Thanks for playing TicTacToe')
     else:
-        main()
+        return main()
 
 def get_move():
     """Defines which move the user is and whether they go uno or second"""
     move = ""
-    while move != 'X' and move != 'O':
+    while move not in 'X' and move not in 'O':
         print("To Play Please Select Either X's or O's:  ")
         move = input().upper()
         try:
-            if move == 'X':
+            if move not in ('X', 'O'):
                 move ='O'
             else:
                 move = 'X'
@@ -106,8 +97,10 @@ def get_move():
 
 def player_one():
     '''Who goes first'''
+    logging.info("randomly assigns player one")
     if random.randint(0,1)==0:
-        return "O" # Computer
+        return "O"
+    else:
         return "X" # Player
 
 def blank_board():
@@ -138,9 +131,9 @@ ___________________
 """
     return board
 
-
 def check_win(board, winner):
     '''Checks for winner using the board'''
+    logging.info('Checking for winner on the board')
     i, mark = board, winner
     return ((i["1"] == i["2"] == i["3"] == mark) or  # 1. top_horizon
             (i["4"] == i["5"] == i["6"] == mark) or  # 2. mid_horizon
@@ -172,10 +165,11 @@ def check_tie(board):
         if board[free_space] == BLANK:
             return False
         else:
-            return "Game is a Tie"
+            return
 
 def make_best_move(board,free_space):
     '''Find The best move for the board'''
+    logging.info("Making a best move on the board")
     best_score = -np.inf
     best_move = None
     for free_space in blank_board():
@@ -189,6 +183,7 @@ def make_best_move(board,free_space):
 
 def minimax(board,winner,mark):
     '''minimax decision tree'''
+    logging.debug("Loading Minimax tree")
     game = get_board(board)
     if game is check_tie(board):
         return 0
@@ -198,10 +193,11 @@ def minimax(board,winner,mark):
     score = []
     for mark in game:
         mark_board(blank_board(),mark,O)
-        score.append(min(not O, winner))
+        score.append(min(not winner))
         board.undo()
 
     return max(score) if O else min(score)
 
+logging.info('End of Program')
 if __name__ == '__main__':
     main()
