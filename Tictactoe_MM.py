@@ -167,19 +167,21 @@ def check_tie(board):
         else:
             return main()
 
-def make_best_move(board,spot):
+def make_best_move(board):
     '''Find The best move for the board'''
     logging.info("Making a best move on the board")
     best_score = -np.inf
     best_move = None
-    for spot in blank_board():
-        mark_board(board, spot,best_move)
-        score = max(False, spot, board)
+    for move in blank_board():
+        mark_board(board, best_move)
+        score = minimax(False, computer, board)
         board.undo()
         if score > best_score:
             best_score = score
-            best_move = spot
-    return make_move(board, spot, best_move)
+            best_move = move
+    make_move(best_move)
+#TODO: spot  in score is computer
+
 
 def minimax(board,winner):
     '''minimax decision tree'''
@@ -188,12 +190,12 @@ def minimax(board,winner):
     if game is check_tie(board):
         return 0
     elif game is check_win(board,winner):
-        return 1 if check_win(board, winner) is max else -1
+        return 1 if check_win(board, winner) is O else -1
 
     score = []
     for best_move in game:
         mark_board(blank_board(),best_move,O)
-        score.append(not make_best_move)
+        score.append(minimax(not make_best_move, board))
         board.undo()
 
     return max(score) if O else min(score)
@@ -201,39 +203,3 @@ def minimax(board,winner):
 logging.info('End of Program')
 if __name__ == '__main__':
     main()
-'''
-Minimax doc string
-'''
-import numpy as np
-
-class MiniMax:
-    '''algorithm for minimax'''
-
-    def make_best_move(board):
-        '''returns the best move for minimax'''
-        best_score = -np.inf
-        best_move = None
-        for move in empty_space.get_possible_moves():
-            ticTacBoard.make_move(move)
-            score = minimax(False, computer, board)
-            ticTacBoard.undo()
-            if (score > best_score):
-                best_score = score
-                best_move = move
-        ticTacBoard.make_move(best_move)
-
-    def minimax(computer_turn, computer_piece, board):
-        '''Define Minimax'''
-        state = board.get_board()
-        if (state is State.DRAW):
-            return 0
-        elif (state is State.OVER):
-            return 1 if board.get_winner() is computer_piece else -1
-
-        score = []
-        for move in board.get_possible_moves():
-            board.make_move(move)
-            score.append(minimax(not computer_turn, computer_piece, board))
-            board.undo()
-
-        return max(score) if computer_turn else min(score)
