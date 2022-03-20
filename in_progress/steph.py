@@ -34,7 +34,7 @@ def main():
     order = get_piece() # order should have [O, X] or [X, O]
     print("order = ", order)
     computer = O
-    player =X
+    player = X
     for spot in range(9):
         # tttBoard[i] = get_piece() #[O,X] [X,O]
         get_board(tttBoard)
@@ -60,13 +60,13 @@ def main():
             player, computer = computer, player
 logging.info('End of Program')
 
-def get_board(board):
-    '''Displays visual representation  of board'''
-    print(board['1'] + '|' + board['2'] + '|' + board['3'])
-    print('-+-+-')
-    print(board['4'] + '|' + board['5'] + '|' + board['6'])
-    print('-+-+-')
-    print(board['7'] + '|' + board['8'] + '|' + board['9'])
+# def get_board(board):
+#     '''Displays visual representation  of board'''
+#     print(board['1'] + '|' + board['2'] + '|' + board['3'])
+#     print('-+-+-')
+#     print(board['4'] + '|' + board['5'] + '|' + board['6'])
+#     print('-+-+-')
+#     print(board['7'] + '|' + board['8'] + '|' + board['9'])
 
 
 def get_piece():
@@ -82,30 +82,51 @@ def get_piece():
         else:
             print('x or o?')
 
-def player_one(computer, player):
+def player_one():
     '''Who goes first'''
+    logging.info("randomly assigns player one")
     if random.randint(0,1)==0:
-        return computer
+        return "O"
     else:
-        return player
-
-# Best_Moves = ['5,1,7,3,2,9,8,6,4']
+        return "X"
 
 def marker(board, free_space, move):
     """draw on the board"""
+    logging.debug("drawing on the board")
     board[free_space] = move
 
-def check_win(board, player):
+def get_board(board):
+    '''Displays visual representation  of board'''
+    logging.info("get the board")
+    topl,topm,topr = board['1'],board['2'],board['3']
+    midl,mid,midr  = board['4'],board['5'],board['6']
+    botl,botm,botr = board['7'],board['8'],board['9']
+    board = f"""
+___________________
+|     |     |     |
+|  {topl}  |  {topm}  |  {topr}  | 1 2 3
+|_____|_____|_____|
+|     |     |     |
+|  {midl}  |  {mid}  |  {midr}  | 4 5 6
+|_____|_____|_____|
+|     |     |     |
+|  {botl}  |  {botm}  |  {botr}  | 7 8 9
+|_____|_____|_____|
+"""
+    return board
+
+def check_win(board, winner):
     '''Checks for winner using the board'''
-    i, mark = board, player
-    return ((i['1'] == i['2'] == i['3'] == mark) or  # 1. top_horizon
-            (i['4'] == i['5'] == i['6'] == mark) or  # 2. mid_horizon
-            (i['7'] == i['8'] == i['9'] == mark) or  # 3. bottom_horizon
-            (i['1'] == i['4'] == i['7'] == mark) or  # 4. left_vertical
-            (i['2'] == i['5'] == i['8'] == mark) or  # 5. middle_vertical
-            (i['3'] == i['6'] == i['9'] == mark) or  # 6. right_vertical
-            (i['1'] == i['5'] == i['9'] == mark) or  # 7. tl_br
-            (i['3'] == i['5'] == i['7'] == mark))    # 8. tr_bl
+    logging.info('Checking for winner on the board')
+    i, mark = board, winner
+    return ((i["1"] == i["2"] == i["3"] == mark) or  # 1. top_horizon
+            (i["4"] == i["5"] == i["6"] == mark) or  # 2. mid_horizon
+            (i["7"] == i["8"] == i["9"] == mark) or  # 3. bottom_horizon
+            (i["1"] == i["4"] == i["7"] == mark) or  # 4. left_vertical
+            (i["2"] == i["5"] == i["8"] == mark) or  # 5. middle_vertical
+            (i["3"] == i["6"] == i["9"] == mark) or  # 6. right_vertical
+            (i["1"] == i["5"] == i["9"] == mark) or  # 7. tl_br
+            (i["3"] == i["5"] == i["7"] == mark))    # 8. tr_bl
 
 def empty_space(board, free_space):
     '''Check if space is free on the board'''

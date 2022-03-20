@@ -1,9 +1,13 @@
+'''
+Minimax doc string
+'''
 import numpy as np
 
 class MiniMax:
     '''algorithm for minimax'''
 
     def make_best_move(board):
+        '''returns the best move for minimax'''
         best_score = -np.inf
         best_move = None
         for move in empty_space.get_possible_moves():
@@ -16,6 +20,7 @@ class MiniMax:
         ticTacBoard.make_move(best_move)
 
     def minimax(computer_turn, computer_piece, board):
+        '''Define Minimax'''
         state = board.get_board()
         if (state is State.DRAW):
             return 0

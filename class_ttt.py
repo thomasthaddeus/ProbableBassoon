@@ -165,7 +165,7 @@ def check_tie(board):
         if board[free_space] == BLANK:
             return False
         else:
-            return
+            return main()
 
 def make_best_move(board,spot):
     '''Find The best move for the board'''
