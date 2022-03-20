@@ -172,14 +172,14 @@ def make_best_move(board):
     logging.info("Making a best move on the board")
     best_score = -np.inf
     best_move = None
-    for spot in blank_board():
+    for move in blank_board():
         mark_board(board, best_move)
         score = minimax(False, O, board)
         board.undo()
         if (score > best_score):
             best_score = score
-            best_move = spot
-    return make_move(board, spot, best_move)
+            best_move = move
+    return make_move(board, move, best_move)
 
 def minimax(board,winner):
     '''minimax decision tree'''
