@@ -35,7 +35,7 @@ def main():
     """Main Loop for running our Game"""
     print(W, D)
     b_b = blank_board()
-    p_1, p_2 = "X", "O"
+    p_1, computer_piece = "X", "O"
     turn = player_one()
 
     # true loop of game
@@ -55,12 +55,12 @@ def main():
                     print(get_board(b_b))
                     print('Theres only ties in this game')
                 else:
-                    turn = p_2
+                    turn = computer_piece
 
-            elif turn == p_2:
-                move = minimax(b_b, p_2)
-                mark_board(b_b,move,p_2)
-                if check_win(b_b, p_2):
+            elif turn == computer_piece:
+                move = Minimax.minimax(b_b, computer_piece, computer_piece)
+                mark_board(b_b,move,computer_piece)
+                if check_win(b_b, computer_piece):
                     print(get_board(b_b))
                     print('you lose')
                 elif check_tie(b_b):
@@ -172,14 +172,14 @@ def check_tie(board):
 class Minimax:
     '''Minimax'''
     winner = {}
-    def make_best_move(self, board, p_2):
+    def make_best_move(self, board, computer_piece):
         '''Find The best move for the board'''
         logging.info("Making a best move on the board")
         best_score = -np.inf
         best_move = None
         for move in blank_board():  # Empty Board
             make_move(best_move, O, board)  # Computer Make a move on the board
-            score = minmax(False, p_2, board)
+            score = minmax(False, computer_piece, board)
             board.undo()
 
             if (score > best_score):
@@ -199,8 +199,8 @@ class Minimax:
 
         score = []
         for best_move in board:
-            mark_board(blank_board(),best_move,O)
-            score.append(minimax(not turn, computer_piece, O))
+            mark_board(blank_board(),best_move,computer_piece)
+            score.append(Minimax.minimax(not turn, computer_piece, turn))
             board.undo()
 
         return max(score) if O else min(score)
