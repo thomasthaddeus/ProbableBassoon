@@ -55,8 +55,8 @@ def main():
                 else:
                     turn = p_2
 
-            else:
-                move = minimax(b_b, p_2,O)
+            elif turn == p_2:
+                move = minimax(b_b, p_2)
                 mark_board(b_b,move,p_2)
                 if check_win(b_b, p_2):
                     print(get_board(b_b))
@@ -167,21 +167,21 @@ def check_tie(board):
         else:
             return
 
-def make_best_move(board,free_space):
+def make_best_move(board,spot):
     '''Find The best move for the board'''
     logging.info("Making a best move on the board")
     best_score = -np.inf
     best_move = None
-    for free_space in blank_board():
-        mark_board(board, free_space,best_move)
-        score = max(False, O, board)
+    for spot in blank_board():
+        mark_board(board, spot,best_move)
+        score = max(False, spot, board)
         board.undo()
         if score > best_score:
             best_score = score
-            best_move = free_space
-    return make_move(board, free_space, best_move)
+            best_move = spot
+    return make_move(board, spot, best_move)
 
-def minimax(board,winner,mark):
+def minimax(board,winner):
     '''minimax decision tree'''
     logging.debug("Loading Minimax tree")
     game = get_board(board)
@@ -191,9 +191,9 @@ def minimax(board,winner,mark):
         return 1 if check_win(board, winner) is max else -1
 
     score = []
-    for mark in game:
-        mark_board(blank_board(),mark,O)
-        score.append(min(not winner))
+    for best_move in game:
+        mark_board(blank_board(),best_move,O)
+        score.append(not make_best_move)
         board.undo()
 
     return max(score) if O else min(score)

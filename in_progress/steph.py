@@ -1,4 +1,6 @@
-
+'''
+Tic-Tac-Toe
+'''
 #####################################
 ##          TIC TAC TOE            ##
 ##  by Stephanie Ort, Thad Thomas  ##
@@ -6,8 +8,7 @@
 ##    Fundamentals of Computing    ##
 #####################################
 
-#####################################
-import random 
+import random
 import logging
 logging.basicConfig(filename='gamelog.txt',
                     filemode='a',level=logging.DEBUG,
@@ -40,17 +41,15 @@ def main():
         spot = input('Choose a spot 1-9:')
         print("your spot = ", spot)
 
-        
     # true loop of game
     while True:
         print(get_board(tttBoard))
         while not empty_space(tttBoard, spot):
-            print("{} Its your turn to play. Choose a move".format("X"))
+            print(f"{player} Its your turn to play. Choose a move")
             turn = input()
             marker(tttBoard, turn, spot)
             # i += 1
             input(tttBoard)
-
 
             if check_win(tttBoard, player):
                 print(get_board(tttBoard))
@@ -119,7 +118,7 @@ def check_tie(board):
         if board[free_space] == BLANK:
             return False
         else:
-            return ("Game is a Tie")
+            print("Game is a Tie")
 
 
 
@@ -134,10 +133,10 @@ def check_tie(board):
 #     except ValueError:
 #         raise logging.exception
 #         print("Value Error: ")
-#     else: 
+#     else:
 #         return main()
-    
+
 # get_board(tttBoard)
 
-# if __name__ == 'main':
-main()  
+if __name__ == '__main__':
+    main()
