@@ -1,5 +1,5 @@
 """
-Play TicTacToe
+final_tic_tac_toe.py
 """
 #####################################
 ##          TIC TAC TOE            ##
@@ -9,7 +9,6 @@ Play TicTacToe
 #####################################
 
 import logging
-import random
 from asyncio import __all__
 
 import numpy as np
@@ -34,38 +33,36 @@ def main():
     print(W, D)
     b_b = blank_board()
     p_1, p_2 = "X", "O"
-    turn = player_one()
-
+    turn = {p_2,p_1}
+    logging.debug('Starts the main While loop')
     # true loop of game
     while True:
         print(get_board(b_b))
         move = None
         while not empty_space(b_b, move):
-            if turn == p_1:
+            if turn==p_1:
                 print(f"{p_1} Its your turn to play. Choose a move")
                 move = input()
-                mark_board(b_b,move,p_1)
+                mark_board(b_b,move,p_1) # Writes to the board
+                logging.debug('Player one marks the board')
 
-                if check_win(b_b, p_1):
-                    print(get_board(b_b))
-                    print('Winner, Winner, chicken dinner')
-                elif check_tie(b_b):
-                    print(get_board(b_b))
-                    print('Theres only ties in this game')
-                else:
-                    turn = p_2
+            if check_win(b_b, p_1):
+                print(get_board(b_b))
+                print('Winner, Winner, chicken dinner')
+            elif check_tie(b_b):
+                print(get_board(b_b))
+                print('Theres only ties in this game')
 
             elif turn == p_2:
                 move = minimax(b_b, p_2)
                 mark_board(b_b,move,p_2)
-                if check_win(b_b, p_2):
-                    print(get_board(b_b))
-                    print('you lose')
-                elif check_tie(b_b):
-                    print(get_board(b_b))
-                    print('Theres only ties in this game')
-                else:
-                    turn = p_1
+            if check_win(b_b, p_2):
+                print(get_board(b_b))
+                print('you lose')
+            elif check_tie(b_b):
+                print(get_board(b_b))
+                print('Theres only ties in this game')
+        p_1, p_2 = p_2, p_1
         if not replay():
             print('End of Game')
             break
@@ -77,7 +74,7 @@ def replay():
     if play_again.upper() == 'N':
         print('Thanks for playing TicTacToe')
     else:
-        return main()
+        main()
 
 def get_move():
     """Defines which move the user is and whether they go uno or second"""
@@ -95,13 +92,14 @@ def get_move():
         else:
             return move
 
-def player_one():
-    '''Who goes first'''
-    logging.info("randomly assigns player one")
-    if random.randint(0,1)==0:
-        return "O"
-    else:
-        return "X" # Player
+def who_is_playing():
+    '''Whi is Playing?'''
+    if whoseturn=='O': 
+        whoseturn='X'
+    if whoseturn=='X':
+        whoseturn='O'
+    return whoseturn
+
 
 def blank_board():
     """Displays a blank b_b of the board"""
@@ -114,9 +112,8 @@ def blank_board():
 def get_board(board):
     '''Displays visual representation  of board'''
     logging.info("get the board")
-    topl,topm,topr = board['1'],board['2'],board['3']
-    midl,mid,midr  = board['4'],board['5'],board['6']
-    botl,botm,botr = board['7'],board['8'],board['9']
+    topl,topm,topr,midl,mid,midr,botl,botm,botr=board['1'],board['2'],board['3'],board['4'],board['5'],board['6'],board['7'],board['8'],board['9']
+
     board = f"""
 ___________________
 |     |     |     |
@@ -129,7 +126,7 @@ ___________________
 |  {botl}  |  {botm}  |  {botr}  | 7 8 9
 |_____|_____|_____|
 """
-    return board
+    yield board
 
 def check_win(board, winner):
     '''Checks for winner using the board'''
@@ -167,36 +164,37 @@ def check_tie(board):
         else:
             return main()
 
-def make_best_move(board,spot):
+def make_best_move(board, move):
     '''Find The best move for the board'''
     logging.info("Making a best move on the board")
     best_score = -np.inf
     best_move = None
-    for spot in blank_board():
-        mark_board(board, spot,best_move)
-        score = max(False, spot, board)
-        board.undo()
+
+    for move in blank_board():
+        mark_board(board, O,move)
+        score = minimax(O, board)
         if score > best_score:
             best_score = score
-            best_move = spot
-    return make_move(board, spot, best_move)
+            best_move = move
+    return make_move(board, move, best_move)
 
 def minimax(board,winner):
     '''minimax decision tree'''
     logging.debug("Loading Minimax tree")
-    game = get_board(board)
+    game = check_win(board, winner)
     if game is check_tie(board):
         return 0
-    elif game is check_win(board,winner):
-        return 1 if check_win(board, winner) is max else -1
+    elif game is check_win(board, winner):
+        return 1 if check_win(board, winner) is O else -1
 
     score = []
-    for best_move in game:
+    for best_move in board[BOARD_KEYS]:
         mark_board(blank_board(),best_move,O)
-        score.append(not make_best_move)
+        score.append(minimax(not make_best_move, winner))
 
     return max(score) if O else min(score)
 
 logging.info('End of Program')
 if __name__ == '__main__':
     main()
+    

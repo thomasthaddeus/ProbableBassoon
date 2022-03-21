@@ -167,33 +167,34 @@ def check_tie(board):
         else:
             return main()
 
-def make_best_move(board,spot):
+def make_best_move(board):
     '''Find The best move for the board'''
     logging.info("Making a best move on the board")
     best_score = -np.inf
     best_move = None
-    for spot in blank_board():
-        mark_board(board, spot,best_move)
-        score = max(False, spot, board)
+    for move in blank_board():
+        mark_board(board, mark)
+        score = minimax(False, O, board)
         board.undo()
-        if score > best_score:
+        if (score > best_score):
             best_score = score
-            best_move = spot
-    return make_move(board, spot, best_move)
+            best_move = move
+    return make_move(board, best_move,mark)
 
 def minimax(board,winner):
     '''minimax decision tree'''
     logging.debug("Loading Minimax tree")
-    game = get_board(board)
+    game = check_win(board, winner)
     if game is check_tie(board):
         return 0
-    elif game is check_win(board,winner):
+    elif game is check_win(board, winner):
         return 1 if check_win(board, winner) is max else -1
 
     score = []
-    for best_move in game:
+    for best_move in board:
         mark_board(blank_board(),best_move,O)
-        score.append(not make_best_move)
+        score.append(minimax(not make_best_move, winner))
+        board.undo()
 
     return max(score) if O else min(score)
 

@@ -20,3 +20,14 @@ def insertLetter(self, letter, pos):
         pos = int(input("Enter a new position: "))
         insertLetter(letter, pos)
         return
+    
+    
+    
+        '''Who goes first'''
+    logging.info("randomly assigns player one")
+    ''' i = X != O
+    for i in range(0,1):
+        if random.randint(0,1)==0:
+            if i is 'O':
+                yield 'X'
+            else: 'O' '''
