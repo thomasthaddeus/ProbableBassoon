@@ -480,3 +480,19 @@
 2022-03-20 15:39:58,884 - INFO - Checking for a tie
 2022-03-20 15:39:58,884 - INFO - Checking for winner on the board
 2022-03-20 15:39:58,885 - INFO - Checking for a tie
+2022-03-21 18:26:07,980 - INFO - Start of Program
+2022-03-21 18:26:07,981 - INFO - End of Program
+2022-03-21 18:26:07,982 - INFO - randomly assigns player one
+2022-03-21 18:26:07,982 - INFO - get the board
+2022-03-21 18:26:17,232 - INFO - Start of Program
+2022-03-21 18:26:17,232 - INFO - End of Program
+2022-03-21 18:26:17,233 - INFO - randomly assigns player one
+2022-03-21 18:26:17,233 - INFO - get the board
+2022-03-21 18:26:58,412 - INFO - Placing Piece on Board on board
+2022-03-21 18:26:58,413 - INFO - Checking for winner on the board
+2022-03-21 18:26:58,413 - INFO - Checking for a tie
+2022-03-21 18:26:58,413 - INFO - get the board
+2022-03-21 18:26:58,413 - INFO - Checking for a tie
+2022-03-21 18:26:58,413 - INFO - Checking for winner on the board
+2022-03-21 18:26:58,413 - INFO - Placing Piece on Board on board
+2022-03-21 18:26:58,414 - INFO - get the board
